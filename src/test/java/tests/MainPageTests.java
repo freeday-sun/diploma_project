@@ -13,7 +13,7 @@ public class MainPageTests extends BaseTest {
   void mainPageShouldHaveFirstContentTest() {
     open("");
     step("Check that main page have first content", () -> {
-      $$(".post__media").first().shouldHave(visible);
+      $$("div[data-test=post]").first().shouldHave(visible);
     });
   }
 }
