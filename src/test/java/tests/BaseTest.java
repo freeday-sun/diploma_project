@@ -10,7 +10,7 @@ public class BaseTest {
   @BeforeAll
   static void setup() {
     RestAssured.filters(new AllureRestAssured());
-    RestAssured.baseURI = "https://m2.ru";
-    Configuration.baseUrl = "https://m2.ru";
+    RestAssured.baseURI = "https://ifunny.co";
+    Configuration.baseUrl = "https://ifunny.co";
   }
 }
