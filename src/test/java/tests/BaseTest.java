@@ -9,31 +9,17 @@ import static helpers.AttachmentsHelper.attachScreenshot;
 import static helpers.AttachmentsHelper.attachVideo;
 import static helpers.AttachmentsHelper.getConsoleLogs;
 
-import com.codeborne.selenide.Configuration;
-import io.qameta.allure.restassured.AllureRestAssured;
+import helpers.DriverHelper;
 import io.qameta.allure.selenide.AllureSelenide;
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class BaseTest {
 
   @BeforeAll
   static void setup() {
-
+    DriverHelper.configureDriver();
     addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));
-    Configuration.startMaximized = true;
-    if (System.getProperty("remote_driver") != null) {
-      DesiredCapabilities capabilities = new DesiredCapabilities();
-      capabilities.setCapability("enableVNC", true);
-      capabilities.setCapability("enableVideo", true);
-      Configuration.browserCapabilities = capabilities;
-      Configuration.remote = System.getProperty("remote_driver");
-    }
-      RestAssured.filters(new AllureRestAssured());
-      RestAssured.baseURI = "https://ifunny.co";
-      Configuration.baseUrl = "https://ifunny.co";
   }
 
 
