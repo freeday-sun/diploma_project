@@ -30,11 +30,12 @@ public class BaseTest {
       capabilities.setCapability("enableVideo", true);
       Configuration.browserCapabilities = capabilities;
       Configuration.remote = System.getProperty("remote_driver");
+    }
       RestAssured.filters(new AllureRestAssured());
       RestAssured.baseURI = "https://ifunny.co";
       Configuration.baseUrl = "https://ifunny.co";
-    }
   }
+
 
   @AfterEach
   public void afterEach() {
