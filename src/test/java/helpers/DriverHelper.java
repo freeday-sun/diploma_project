@@ -1,29 +1,67 @@
 package helpers;
 
+import static com.codeborne.selenide.Selenide.getWebDriverLogs;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static com.codeborne.selenide.logevents.SelenideLogger.addListener;
+import static java.lang.String.join;
+import static org.openqa.selenium.logging.LogType.BROWSER;
+
 import com.codeborne.selenide.Configuration;
-import config.ConfigHelper;
-import io.qameta.allure.restassured.AllureRestAssured;
-import io.restassured.RestAssured;
+import config.DriverConfig;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class DriverHelper {
 
+  private static DriverConfig getDriverConfig() {
+    return ConfigFactory.newInstance().create(DriverConfig.class, System.getProperties());
+  }
+
+  public static String getWebRemoteDriver() {
+    // https://%s:%s@selenoid.autotests.cloud/wd/hub/
+    return String.format(getDriverConfig().webRemoteDriverUrl(),
+        getDriverConfig().webRemoteDriverUser(),
+        getDriverConfig().webRemoteDriverPassword());
+  }
+
+  public static boolean isRemoteWebDriver() {
+    return !getDriverConfig().webRemoteDriverUrl().equals("");
+  }
+
+  public static String getVideoUrl() {
+    return getDriverConfig().videoStorage();
+  }
+
+  public static boolean isVideoOn() {
+    return !getVideoUrl().equals("");
+  }
+
+  public static String getSessionId(){
+    return ((RemoteWebDriver) getWebDriver()).getSessionId().toString().replace("selenoid","");
+  }
+
+  public static String getConsoleLogs() {
+    return join("\n", getWebDriverLogs(BROWSER));
+  }
+
   public static void configureDriver() {
+    addListener("AllureSelenide", new AllureSelenide());
 
-    RestAssured.filters(new AllureRestAssured());
-    RestAssured.baseURI = ConfigHelper.getBaseURL();
-    Configuration.baseUrl = ConfigHelper.getWebUrl();
-    Configuration.browser = System.getProperty("browser", "chrome");
-    Configuration.startMaximized = true;
+    Configuration.browser = getDriverConfig().webBrowser();
+    Configuration.browserVersion = getDriverConfig().webBrowserVersion();
+    Configuration.browserSize = getDriverConfig().webBrowserSize();
 
-    if (ConfigHelper.isRemoteWebDriver()) {
-      Configuration.remote = System.getProperty("web.remote.driver");
+    DesiredCapabilities capabilities = new DesiredCapabilities();
 
-      DesiredCapabilities capabilities = new DesiredCapabilities();
+    if (isRemoteWebDriver()) {
       capabilities.setCapability("enableVNC", true);
       capabilities.setCapability("enableVideo", true);
-      Configuration.browserCapabilities = capabilities;
+      Configuration.remote = getWebRemoteDriver();
     }
+
+    Configuration.browserCapabilities = capabilities;
   }
 
 }
