@@ -1,16 +1,20 @@
 package tests;
 
-
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.logevents.SelenideLogger.addListener;
 import static helpers.AttachmentsHelper.attachAsText;
 import static helpers.AttachmentsHelper.attachPageSource;
 import static helpers.AttachmentsHelper.attachScreenshot;
 import static helpers.AttachmentsHelper.attachVideo;
-import static helpers.AttachmentsHelper.getConsoleLogs;
+import static helpers.DriverHelper.configureDriver;
+import static helpers.DriverHelper.getConsoleLogs;
+import static helpers.DriverHelper.getSessionId;
+import static helpers.DriverHelper.isVideoOn;
 
-import helpers.DriverHelper;
+import com.codeborne.selenide.Configuration;
+import config.ConfigHelper;
 import io.qameta.allure.selenide.AllureSelenide;
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -18,19 +22,21 @@ public class BaseTest {
 
   @BeforeAll
   static void setup() {
-    DriverHelper.configureDriver();
-    addListener("AllureSelenide", new AllureSelenide().screenshots(true).savePageSource(true));
+    configureDriver();
+    RestAssured.baseURI = ConfigHelper.getBaseURL();
+    Configuration.baseUrl = ConfigHelper.getWebUrl();
   }
 
 
   @AfterEach
   public void afterEach() {
+    String sessionId = getSessionId();
+
     attachScreenshot("Last screenshot");
     attachPageSource();
     attachAsText("Browser console logs", getConsoleLogs());
-    if (System.getProperty("video_storage") != null) {
-      attachVideo();
-    }
+    if (isVideoOn()) attachVideo(sessionId);
+
     closeWebDriver();
   }
 }
