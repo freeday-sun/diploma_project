@@ -5,6 +5,8 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 
+import allure.JiraIssue;
+import allure.JiraIssues;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +19,7 @@ public class LoginTests extends BaseTest {
   @Story("Login button show login form")
   @DisplayName("Login button show login form")
   @Tag("web")
+  @JiraIssues({@JiraIssue("QC3-38")})
   @Test
   void mainPageCanShowLoginModalWindowTest() {
     open("");

@@ -6,6 +6,8 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 
+import allure.JiraIssue;
+import allure.JiraIssues;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +20,7 @@ public class CategoriesTests extends BaseTest {
   @Story("It's possible to go to category from main site")
   @DisplayName("Category link forward you to certain category")
   @Tag("web")
+  @JiraIssues({@JiraIssue("QC3-38")})
   @Test
   void CategoriesForwardToCertainCategoryTest() {
     open("");

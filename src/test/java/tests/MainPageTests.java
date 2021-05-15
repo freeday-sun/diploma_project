@@ -5,6 +5,8 @@ import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 import static io.qameta.allure.Allure.step;
 
+import allure.JiraIssue;
+import allure.JiraIssues;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +19,7 @@ public class MainPageTests extends BaseTest {
   @Story("MainPage memes")
   @DisplayName("MainPage have first meme")
   @Tag("web")
+  @JiraIssues({@JiraIssue("QC3-38")})
   @Test
   void mainPageShouldHaveFirstContentTest() {
     open("");
