@@ -33,12 +33,12 @@
 #### *Allure TestOps for flexible test management:*
 ![screenshot](src/test/resources/images/allure_TO_launches.png)
 ![screenshot](src/test/resources/images/allure_TO_tests.png)
-![screenshot](src/test/resources/images/allure_TO_one_test.png)
+![screenshot](src/test/resources/images/allure_TO_test_details.png)
 <br />
 <br />
 <br />
 #### *Jira integration:*
-![screenshot](src/test/resources/images/jira.png)
+![screenshot](src/test/resources/images/jira_integration.png)
 <br />
 <br />
 <br />
