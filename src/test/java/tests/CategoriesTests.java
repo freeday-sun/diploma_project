@@ -25,7 +25,7 @@ public class CategoriesTests extends BaseTest {
   void CategoriesForwardToCertainCategoryTest() {
     open("");
     step("Check that categories from main page redirect to certain category", () -> {
-      $$("a[data-test=categories-item-desktop]").get(0).click();
+      $("a[data-test=categories-item-desktop]").click();
       $("h1").shouldHave(text("Animals & Nature memes"));
     });
 
